@@ -12,8 +12,8 @@ def employees():
         conn = mysql.connect()
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         cursor.execute("select * from customers")
-        employeesRows = cursor.fetchall()
-        respone = jsonify(employeesRows)
+        customerssRows = cursor.fetchall()
+        respone = jsonify(customersRows)
         respone.status_code = 200
         return respone
     except Exception as e:
@@ -23,22 +23,22 @@ def employees():
         conn.close()  
 
 # READ (cRud)
-# this function uses the route /employees/<employeeId> to get a specific employee
-#@app.route('/employees/<employees_id>')
-#def employees_details(employees_id):
-#    try:
-#        conn = mysql.connect()
-#        cursor = conn.cursor(pymysql.cursors.DictCursor)
-#        cursor.execute("select employeeNumber, firstName, lastName, extension, email, officeCode, reportsTo, jobTitle FROM employees WHERE employeeNumber =%s", employees_id)
-#        employeesRow = cursor.fetchone()
-#        respone = jsonify(employeesRow)
-#        respone.status_code = 200
-#        return respone
-#    except Exception as e:
-#        print(e)
-#    finally:
-#        cursor.close() 
-#        conn.close() 
+# this function uses the route /customers/<customerNumber> to get a specific customer
+@app.route('/customers/<customer_number>')
+def customer_details(customer_number):
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("select customerNumber, customerName, contactLastName, contactFirstName, phone, addressLine1, addressLine2, city, state, postalCode, country, salesRepEmployeeNumber, creditLimit, gender FROM customers")
+        customersRow = cursor.fetchone()
+        respone = jsonify(customersRow)
+        respone.status_code = 200
+        return respone
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close() 
+        conn.close() 
 
 
 # this method handles a 404 error returned from this service 
